@@ -2,8 +2,8 @@ server:
   port: 8000
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
 
@@ -19,6 +19,11 @@ spring:
               preLogger: true
               postLogger: true
       routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+
         - id: first-service
           uri: lb://MY-FIRST-SERVICE
           predicates:
