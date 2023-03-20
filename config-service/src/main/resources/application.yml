@@ -8,5 +8,8 @@ spring:
     config:
       server:
         git:
-          uri: file://C:\GIT\git-local-repo
+#          uri: file://C:\GIT\git-local-repo
           default-label=main:
+          uri: https://github.com/RDDcat/MSAEcommerceDemo
+#          username: [username]
+#          password: [password]
