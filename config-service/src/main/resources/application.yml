@@ -9,3 +9,4 @@ spring:
       server:
         git:
           uri: file://C:\GIT\git-local-repo
+          default-label=main:

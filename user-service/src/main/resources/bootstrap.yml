@@ -3,3 +3,7 @@ spring:
     config:
       uri: http://127.0.01:8888
       name: ecommerce
+#spring:
+#  config:
+#    import:
+#      - classpath:/bootstrap.yml
