@@ -104,10 +104,11 @@ public class UserServiceImpl implements UserService{
 //        } catch (FeignException e){
 //            log.error(e.getMessage());
 //        }
-
+        log.info("Before call orders microservice");
         CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitbreaker");
         List<ResponseOrder> orderList = circuitBreaker.run(() -> orderServiceClient.getOrders(userId),
                 throwable -> new ArrayList<>());
+        log.info("After call orders microservice");
 
         userDTO.setOrders(orderList);
 
