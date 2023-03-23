@@ -37,6 +37,10 @@ management:
       exposure:
         include: refresh, health, beans, busrefresh
 
+
 #token:
 #  expiration_time: 86400000
+logging:
+  level:
+    com.maro.userservice.client: DEBUG
 #  secret: userToken
