@@ -1,6 +1,7 @@
 package com.maro.orderservice.controller;
 
 import com.maro.orderservice.dto.OrderDTO;
+import com.maro.orderservice.messagequeue.KafkaProducer;
 import com.maro.orderservice.repository.OrderEntity;
 import com.maro.orderservice.service.OrderService;
 import com.maro.orderservice.vo.RequestOrder;
@@ -21,11 +22,13 @@ import java.util.List;
 public class OrderController {
     Environment env;
     OrderService orderService;
+    KafkaProducer kafkaProducer;
 
     @Autowired
-    public OrderController(Environment env, OrderService orderService) {
+    public OrderController(Environment env, OrderService orderService, KafkaProducer kafkaProducer) {
         this.env = env;
         this.orderService = orderService;
+        this.kafkaProducer = kafkaProducer;
     }
 
     @GetMapping("/health_check")
@@ -38,11 +41,16 @@ public class OrderController {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
+        /* JPA */
         OrderDTO orderDTO = mapper.map(orderDetails, OrderDTO.class);
         orderDTO.setUserId(userId);
         OrderDTO createdOrder = orderService.createOrder(orderDTO);
 
         ResponseOrder responseOrder = mapper.map(createdOrder, ResponseOrder.class);
+
+        /* send order to kafka */
+        kafkaProducer.send("example-catalog-topic", orderDTO);
+
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseOrder);
     }
