@@ -5,6 +5,8 @@ import com.maro.userservice.dto.UserDTO;
 import com.maro.userservice.repository.UserEntity;
 import com.maro.userservice.repository.UserRepository;
 import com.maro.userservice.vo.ResponseOrder;
+import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService{
     UserRepository userRepository;
     BCryptPasswordEncoder passwordEncoder;
@@ -89,7 +92,14 @@ public class UserServiceImpl implements UserService{
 //        List<ResponseOrder> orderList = orderListResponse.getBody();
 
         /* Feign client 사용 */
-        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
+        /* Feign excption handling */
+        List<ResponseOrder> orderList = null;
+        try{
+            orderList = orderServiceClient.getOrders(userId);
+        } catch (FeignException e){
+            log.error(e.getMessage());
+        }
+
 
         userDTO.setOrders(orderList);
 
