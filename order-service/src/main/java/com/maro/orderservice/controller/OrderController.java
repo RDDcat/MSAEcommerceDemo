@@ -48,7 +48,7 @@ public class OrderController {
     }
 
     @GetMapping("/{userId}/orders")
-    public ResponseEntity<List<ResponseOrder>> createOrder(@PathVariable String userId){
+    public ResponseEntity<List<ResponseOrder>> getOrder(@PathVariable String userId){
         Iterable<OrderEntity> orderList = orderService.getOrderByUserId(userId);
 
         List<ResponseOrder> result = new ArrayList<>();
