@@ -19,8 +19,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
-    generate-ddl: true
+#    show-sql:
+#    generate-ddl:
 #    database: h2
 #    defer-datasource-initialization: true
   datasource:
@@ -45,3 +45,8 @@ logging:
   level:
     com.maro.catalogservice: DEBUG
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, busrefresh, info, mertrics, prometheus
