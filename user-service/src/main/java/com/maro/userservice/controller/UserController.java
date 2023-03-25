@@ -44,6 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/welcome")
+    @Timed(value = "users.welcome", longTask = true)
     public String welcome(){
 //        return env.getProperty("greeting.message");
         return greeting.getMessage();
